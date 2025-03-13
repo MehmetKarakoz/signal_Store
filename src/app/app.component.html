@@ -1,0 +1,19 @@
+@for (todo of todosStore.todos() ; track  $index) {
+
+  @if (todo['completed']) {
+    <div style="background: yellowgreen ; font-family: 'Arial Black'">
+      <p>id : {{todo['id'] |json }}
+      <p>User İd : {{todo['userId'] |json}}</p>
+      <p>title :   {{todo['title'] |json}}</p>
+      <p>Completed : {{todo['completed']}}</p>
+    </div>
+  } @else {
+    <div style="background: indianred ; font-family: 'Arial Black'; border-radius: 5px "  >
+      <p>id : {{todo['id'] |json }}
+      <p>User İd : {{todo['userId'] |json}}</p>
+      <p>title :   {{todo['title'] |json}}</p>
+      <p>Completed : {{todo['completed']}}</p>
+    </div>
+  }
+
+}
