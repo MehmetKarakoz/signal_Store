@@ -15,6 +15,5 @@ export class AppComponent {
 
   ngOnInit(): void {
     this.todosStore.getTodosObservable();
-    console.log("sdasdsa")
   }
 }
