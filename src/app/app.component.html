@@ -1,3 +1,6 @@
+{{'Total görev sayısı : '+todosStore.todosCount()}}<br>
+{{'Tamamlanan Görev Sayısı : ' + todosStore.todosCompletedCount()}}<br>
+{{'Tamamlanamayan Görev Sayısı : '+ todosStore.todoNotCompletedCount()}}
 @for (todo of todosStore.todos() ; track  $index) {
 
   @if (todo['completed']) {
