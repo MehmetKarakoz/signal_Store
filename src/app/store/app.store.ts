@@ -32,7 +32,7 @@ export const TodosStore = signalStore(
     const apiService = inject(ApiBaglantiService);
     return {
       /*async getTodosPromise(): Promise<void> {
-        patchState(store, { isLoading: true });
+         patchState(store, { isLoading: true });
         const data = await lastValueFrom(apiService.fetcData());
         patchState(store, { todos: data, isLoading: false });
       },*/

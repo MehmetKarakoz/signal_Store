@@ -1,22 +1,41 @@
-{{'Total görev sayısı : '+todosStore.todosCount()}}<br>
-{{'Tamamlanan Görev Sayısı : ' + todosStore.todosCompletedCount()}}<br>
-{{'Tamamlanamayan Görev Sayısı : '+ todosStore.todoNotCompletedCount()}}
-@for (todo of todosStore.todos() ; track  $index) {
+<!--<div style="background-color: aquamarine;border-radius: 5px;padding: 5px;font-family: 'Arial Black'">-->
+<!--  <p>{{'Total görev sayısı : '+todosStore.todosCount()}}</p>-->
+<!--  <p style="color: lightseagreen">{{'Tamamlanan Görev Sayısı : ' + todosStore.todosCompletedCount()}}</p>-->
+<!--  <p style="color: red">{{'Tamamlanamayan Görev Sayısı : '+ todosStore.todoNotCompletedCount()}}</p>-->
+<!--</div>-->
+<!--  @for (todo of todosStore.todos() ; track  $index) {-->
 
-  @if (todo['completed']) {
-    <div style="background: yellowgreen ; font-family: 'Arial Black'">
-      <p>id : {{todo['id'] |json }}
-      <p>User İd : {{todo['userId'] |json}}</p>
-      <p>title :   {{todo['title'] |json}}</p>
-      <p>Completed : {{todo['completed']}}</p>
-    </div>
-  } @else {
-    <div style="background: indianred ; font-family: 'Arial Black'; border-radius: 5px "  >
-      <p>id : {{todo['id'] |json }}
-      <p>User İd : {{todo['userId'] |json}}</p>
-      <p>title :   {{todo['title'] |json}}</p>
-      <p>Completed : {{todo['completed']}}</p>
-    </div>
-  }
+<!--  @if (todo['completed']) {-->
+<!--    <div style="padding: 4px ; background: yellowgreen ; font-family: 'Arial Black'; border-radius: 5px ; color: black ; margin-top:4px ">-->
+<!--      <p>id : {{todo['id'] }}-->
+<!--      <p>User İd : {{todo['userId']}}</p>-->
+<!--      <p>title : {{todo['title']}}</p>-->
+<!--      <p>Completed : {{todo['completed']}}</p>-->
+<!--    </div>-->
+<!--  } @else {-->
+<!--    <div style="padding: 4px ; background: indianred ; font-family: 'Arial Black'; border-radius: 5px ; color: aliceblue ; margin-top:4px"  >-->
+<!--      <p style="padding: 4px">id : {{todo['id']}}-->
+<!--      <p style="padding: 4px">User İd : {{todo['userId'] }}</p>-->
+<!--      <p style="padding: 4px">title :   {{todo['title'] }}</p>-->
+<!--      <p style="padding: 4px">Completed : {{todo['completed']}}</p>-->
+<!--    </div>-->
+<!--  }-->
 
-}
+<!--}-->
+<p-table [value]="todosStore.todos()" stripedRows [tableStyle]="{'min-width':'50rem'}">
+  <ng-template pTemplate="header" >
+    <tr>
+      <th>Id</th>
+      <th>User-Id</th>
+      <th>Title</th>
+      <th>Completed</th>
+      <th>Action</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-todo let-index="rowIndex" >
+    <tr>
+      <td>{todo.id}}</td>
+      <td>{{todo.title  }} </td>
+    </tr>
+  </ng-template>
+</p-table>
