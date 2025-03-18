@@ -9,7 +9,8 @@ import {Todo} from '../Model/app.types'
 export class ApiBaglantiService {
 private apiUrl='https://jsonplaceholder.typicode.com'
   private httpClient=inject(HttpClient);
-  fetcData():Observable<Todo[]>{
+  fetchData():Observable<Todo[]>{
   return this.httpClient.get<Todo[]>(this.apiUrl+'/todos')
   }
 }
+

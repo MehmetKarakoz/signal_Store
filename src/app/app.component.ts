@@ -6,9 +6,11 @@ import {InputText} from 'primeng/inputtext';
 import {ToggleSwitch} from 'primeng/toggleswitch';
 import {Button} from 'primeng/button';
 import {Checkbox} from 'primeng/checkbox';
+import {TodoHeader, TodoStatus} from './type-model/app.types';
+import {IconField} from 'primeng/iconfield';
 @Component({
   selector: 'app-root',
-  imports: [JsonPipe, TableModule, InputText, ToggleSwitch, Button, Checkbox],
+  imports: [JsonPipe, TableModule, IconField, Button],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
@@ -23,4 +25,8 @@ userId=[1,3,5,7]
   filter(){
     this.openFilter.set(!this.openFilter());
   }
+
+  protected readonly TodoStatus = TodoStatus;
+  protected readonly TodoHeader = TodoHeader;
+  protected readonly Object = Object;
 }
