@@ -7,10 +7,10 @@ import {
   withMethods,
   withState,
 } from '@ngrx/signals';
-import {Todo, TodoStore} from '../type-model/app.types';
+import {Todo, TodoStatus, TodoStore} from '../type-model/app.types';
 import { computed, inject } from '@angular/core';
 import { ApiBaglantiService } from '../Api-Services/api-baglanti.service';
-import { lastValueFrom, pipe, switchMap, tap } from 'rxjs';
+import {lastValueFrom, map, pipe, switchMap, tap} from 'rxjs';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { tapResponse } from '@ngrx/operators';
 
@@ -25,22 +25,36 @@ export const TodosStore = signalStore(
   withState(initialState),
   withComputed((store) => ({
     todosCount: computed(() => store.todos().length),
-    todosCompletedCount:computed(()=> store.todos().filter((todo:Todo)=>todo.completed).length),
-    todoNotCompletedCount:computed(()=> store.todos().filter((todo:Todo)=>!todo.completed).length)
+    todosByStatus: computed(() => {
+      return {
+        [TodoStatus.TODO]: store.todos().filter(todo => todo.status === TodoStatus.TODO),
+        [TodoStatus.IN_PROGRESS]: store.todos().filter(todo => todo.status === TodoStatus.IN_PROGRESS),
+        [TodoStatus.DONE]: store.todos().filter(todo => todo.status === TodoStatus.DONE)
+      } as Record<TodoStatus, Todo[]>;
+    }),
   })),
   withMethods((store) => {
     const apiService = inject(ApiBaglantiService);
     return {
-      /*async getTodosPromise(): Promise<void> {
-         patchState(store, { isLoading: true });
-        const data = await lastValueFrom(apiService.fetcData());
-        patchState(store, { todos: data, isLoading: false });
-      },*/
       getTodosObservable: rxMethod<void>(
         pipe(
           tap(() => patchState(store, { isLoading: true })),
           switchMap(() =>
-            apiService.fetcData().pipe(
+            apiService.fetchData().pipe(
+              map((data) => {
+                return data.slice(0, 10).map((todo, index) => {
+                  let status: TodoStatus;
+                  if (index < 3) {
+                    status = TodoStatus.TODO;
+                  } else if (index < 6) {
+                    status = TodoStatus.IN_PROGRESS;
+                  } else {
+                    status = TodoStatus.DONE;
+                  }
+                  return { ...todo, status };
+                });
+              }),
+
               tapResponse({
                 next: (data) =>
                   patchState(store, { todos: data, isLoading: false }),
@@ -54,15 +68,19 @@ export const TodosStore = signalStore(
   }),
   withHooks({
     onInit(store) {
-      console.log('TodosStore initialized!');
       watchState(store, (state) => {
-        console.log(state);
+        if(state.todos.length!==0){
+          console.log(state.todos);
+        }
       });
     },
   })
 );
+
+/*
 fetch("https://jsonplaceholder.typicode.com/users")
   .then((response) => response.json())
   .then((data) => {
     console.log("Gelen Veri" , data)
   });
+*/
