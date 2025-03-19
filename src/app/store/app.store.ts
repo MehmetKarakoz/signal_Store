@@ -1,5 +1,5 @@
 import {
-  patchState,
+  patchState, signalState,
   signalStore,
   watchState,
   withComputed,
@@ -10,7 +10,7 @@ import {
 import {Todo, TodoStatus, TodoStore} from '../type-model/app.types';
 import { computed, inject } from '@angular/core';
 import { ApiBaglantiService } from '../Api-Services/api-baglanti.service';
-import {lastValueFrom, map, pipe, switchMap, tap} from 'rxjs';
+import { map, pipe, switchMap, tap} from 'rxjs';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { tapResponse } from '@ngrx/operators';
 
@@ -64,6 +64,34 @@ export const TodosStore = signalStore(
           )
         )
       ),
+      getDialog:rxMethod<void>(
+      pipe(
+        tap(() => patchState(store, { isLoading: true })),
+        switchMap(() =>
+          apiService.fetchData().pipe(
+            map((data) => {
+              return data.slice(0, 10).map((todo, index) => {
+                let status: TodoStatus;
+                if (index < 3) {
+                  status = TodoStatus.TODO;
+                } else if (index < 6) {
+                  status = TodoStatus.IN_PROGRESS;
+                } else {
+                  status = TodoStatus.DONE;
+                }
+                return { ...todo, status };
+              });
+            }),
+
+            tapResponse({
+              next: (data) =>
+                patchState(store, { todos: data, isLoading: false }),
+              error: (error) => console.error(error),
+            })
+          )
+        )
+      )
+    )
     };
   }),
   withHooks({
@@ -76,7 +104,6 @@ export const TodosStore = signalStore(
     },
   })
 );
-
 /*
 fetch("https://jsonplaceholder.typicode.com/users")
   .then((response) => response.json())
