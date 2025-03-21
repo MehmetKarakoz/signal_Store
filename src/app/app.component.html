@@ -1,32 +1,4 @@
-
-<div class="h-screen bg-gray-100 p-4">
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 h-full ">
-    @for (todoBox of Object.values(TodoHeader); track $index) {
-    <div class="bg-slate-400  rounded-lg  p-6">
-      <h2 class="text-lg font-semibold mb-4 text-center">{{todoBox}}</h2>
-        @for (todo of todosStore.todos(); track $index){
-          @if (todoBox=='TO-DO') {
-            @if (todo.status == 'Todo') {
-              <div class="border border-gray-300 rounded-md overflow-hidden mt-2">
-                <div class="bg-gray-500 font-bold p-2 text-center ">{{ todo.title }} <p-button  icon="pi pi-plus" class="w-2 h-2 justify-items-end"  ></p-button></div>
-              </div>
-            }
-          } @else if (todoBox=='In Progress'){
-            @if (todo.status == 'InProgress') {
-              <div class="border border-gray-300 rounded-md overflow-hidden mt-2">
-                <div class="bg-gray-500 font-bold p-2 text-center ">{{ todo.title }}</div>
-              </div>
-            }
-          }
-          @else{
-            @if (todo.status == 'Done') {
-              <div class="border border-gray-300 rounded-md overflow-hidden mt-2">
-                <div class="bg-gray-500 font-bold p-2 text-center ">{{ todo.title }}</div>
-              </div>
-            }
-          }
-        }
-    </div>
-    }
-  </div>
-</div>
+<!--
+<app-todo/>
+-->
+<app-card/>

@@ -1,22 +1,17 @@
-import {Component, inject} from '@angular/core';
-import {TodosStore} from './store/app.store'
+import {Component} from '@angular/core';
 import {JsonPipe} from '@angular/common';
 import {TableModule} from 'primeng/table';
 import {Button} from 'primeng/button';
-import {TodoHeader, TodoStatus} from './type-model/app.types';
-import {IconField} from 'primeng/iconfield';
+import {Dialog} from 'primeng/dialog';
+import {TodoComponent} from './pages/todo-componenet/todo/todo-template/todo.component';
+import {DialogComponents} from './pages/todo-componenet/todo/todo-dialog/dialog.component';
+import {CardComponent} from './pages/card-component/card/card.component';
 @Component({
   selector: 'app-root',
-  imports: [JsonPipe, TableModule, IconField, Button],
+  imports: [TableModule, TodoComponent, CardComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  todosStore = inject(TodosStore)
-  dialog=this.todosStore.getDialog()
 
-
-  protected readonly TodoStatus = TodoStatus;
-  protected readonly TodoHeader = TodoHeader;
-  protected readonly Object = Object;
 }
