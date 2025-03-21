@@ -1,22 +1,35 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
 
-interface Item {
-  name: string;
-  date: string;
+import { computed, inject } from '@angular/core';
+import { patchState, signalStore, withComputed, withMethods, withState } from '@ngrx/signals';
+import {Card} from '../../../../shared/Model/card.model';
+
+export interface CardState {
+  cards: Card[];
+  showDialog: boolean;
 }
 
-@Injectable({
-  providedIn: 'root'
-})
-export class ItemStoreService  {
-  private itemsSubject = new BehaviorSubject<Item[]>([]);
-  public items$ = this.itemsSubject.asObservable();
+const initialState: CardState = {
+  cards: [],
+  showDialog: false
+};
 
-  constructor() {}
-
-  addItem(item: Item) {
-    const currentItems = this.itemsSubject.getValue();
-    this.itemsSubject.next([...currentItems, item]);
-  }
-}
+export const CardStore = signalStore(
+  { providedIn: 'root' },
+  withState(initialState),
+  withMethods((store) => ({
+    addItem(card: Card) {
+      patchState(store, (state) => ({
+        cards: [...state.cards, card]
+      }));
+      this.toggleDialog();
+    },
+    toggleDialog() {
+      patchState(store, (state) => ({
+        showDialog: !state.showDialog
+      }));
+    }
+  })),
+  withComputed((store) => ({
+    cardsCount: computed(() => store.cards().length)
+  }))
+);
