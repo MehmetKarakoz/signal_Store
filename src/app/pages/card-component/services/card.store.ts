@@ -1,5 +1,5 @@
 
-import { computed, inject } from '@angular/core';
+import { computed } from '@angular/core';
 import { patchState, signalStore, withComputed, withMethods, withState } from '@ngrx/signals';
 import {Card} from '../../../../shared/Model/card.model';
 
@@ -21,12 +21,17 @@ export const CardStore = signalStore(
       patchState(store, (state) => ({
         cards: [...state.cards, card]
       }));
-      this.toggleDialog();
+      sessionStorage.setItem('cards',JSON.stringify((store.cards())))
     },
     toggleDialog() {
       patchState(store, (state) => ({
         showDialog: !state.showDialog
       }));
+    },
+    closeDialog(){
+      patchState(store,(state)=>({
+        showDialog:!state.showDialog
+      }))
     }
   })),
   withComputed((store) => ({
