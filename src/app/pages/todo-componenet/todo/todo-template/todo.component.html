@@ -1,0 +1,30 @@
+<div class="min-h-screen bg-gray-100 p-4">
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-6 h-full">
+    @for (todoBox of Object.values(TodoHeader); track $index) {
+      <div
+        class="rounded-lg p-6 flex flex-col overflow-y-auto h-[calc(100vh-2rem)]"
+        [ngClass]="{
+          'bg-green-400': todoBox == 'TO-DO',
+          'bg-blue-400': todoBox == 'In Progress',
+          'bg-gray-400': todoBox == 'Waiting Info',
+          'bg-red-400': todoBox == 'Done'
+        }">
+        <h2 class="text-lg font-semibold mb-4 text-center">{{todoBox}}</h2>
+        @for (todo of todosStore.todos(); track $index) {
+          @if (todoBox == 'TO-DO' && todo.status == 'Todo' ||
+          todoBox == 'In Progress' && todo.status == 'InProgress' ||
+          todoBox == 'Waiting Info' && todo.status == 'WaitingInfo' ||
+          todoBox == 'Done' && todo.status == 'Done') {
+            <div class="border border-gray-300 rounded-md overflow-hidden mt-2">
+              <div class="bg-orange-400 font-bold p-2 text-center flex justify-between items-center">
+                {{ todo.title }}
+                <p-button icon="pi pi-plus"  (click)="todosStore.toggleDialog(todo)"></p-button>
+              </div>
+            </div>
+          }
+        }
+      </div>
+    }
+  </div>
+</div>
+<app-todo-dialog/>
