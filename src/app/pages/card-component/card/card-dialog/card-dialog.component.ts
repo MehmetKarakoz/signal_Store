@@ -12,8 +12,8 @@ import {InputText} from 'primeng/inputtext';
   imports: [
     Dialog,
     Calendar,
-    Button,
     ReactiveFormsModule,
+    Button,
     InputText
   ],
   templateUrl: './card-dialog.component.html',
@@ -23,6 +23,7 @@ export class CardDialogComponent {
   store = inject(CardStore);
   fb = inject(FormBuilder);
   _visible = signal(false);
+
   cardForm: FormGroup = this.fb.group({
     name: ['', Validators.required],
     date: [new Date(), Validators.required]
@@ -31,7 +32,6 @@ export class CardDialogComponent {
   constructor() {
     effect(() => {
       this._visible.set(this.store.showDialog());
-
     });
   }
 
@@ -44,4 +44,5 @@ export class CardDialogComponent {
       });
     }
   }
+
 }

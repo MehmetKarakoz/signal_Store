@@ -27,41 +27,21 @@ import {CardDialogComponent} from '../card-dialog/card-dialog.component';
 })
 export class CardComponent implements OnInit{
   store = inject(CardStore);
-  fb = inject(FormBuilder);
   _visible = signal(false);
 
-  cardForm: FormGroup = this.fb.group({
-    name: ['', Validators.required],
-    date: [new Date(), Validators.required]
-  });
-  sessionStorages=signal<Card[]>([])
   ngOnInit() {
-    const storedData = sessionStorage.getItem('cards');
-
-    if (storedData) {
-      this.sessionStorages.set(JSON.parse(storedData))
-    } else {
-      this.sessionStorages.set([])
+    const storedCards = sessionStorage.getItem('cards');
+    if (storedCards) {
+      const parsedCards = JSON.parse(storedCards);
+      this.store.setCards(parsedCards);
     }
-
-    console.log(this.sessionStorages());
   }
   constructor() {
     effect(() => {
       this._visible.set(this.store.showDialog());
-
     });
   }
-
-  onSubmit() {
-    if (this.cardForm.valid) {
-      this.store.addItem(this.cardForm.value as Card);
-      this.cardForm.reset({
-        name: '',
-        date: new Date()
-      });
-    }
+  removeCard(cardId:string){
+    this.store.removeItem(cardId)
   }
-
-  protected readonly sessionStorage = sessionStorage;
 }
