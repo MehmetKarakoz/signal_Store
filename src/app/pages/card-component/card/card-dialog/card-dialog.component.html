@@ -1,5 +1,6 @@
 
-<p-dialog [(visible)]="_visible" modal header="Todo Update" [closable]="true" (onHide)="store.toggleDialog()" [style]="{ width: '30rem'  }" >
+<p-dialog [(visible)]="_visible" modal header="Todo Update" [closable]="true" position="bottom"
+          [style]="{ width: '30rem' }"  [keepInViewport]="false" [dismissableMask]="false"  [blockScroll]="true" [maximizable]="true" >
   <form [formGroup]="cardForm" (submit)="onSubmit()">
     <div class="field mb-4">
       <label for="name" class="block mb-2">Name</label>
@@ -10,6 +11,7 @@
         formControlName="name"
         class="w-full"
         placeholder="Card Name"
+
       />
     </div>
     <div class="field mb-4">
@@ -27,7 +29,7 @@
       <p-button
         label="İptal"
         styleClass="p-button-text"
-        (onClick)="store.toggleDialog()"
+        (onClick)="toggleDialog()"
         class="mr-2"
       ></p-button>
       <p-button

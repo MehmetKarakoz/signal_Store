@@ -1,16 +1,16 @@
-<div class="mx-auto p-4 overflow-hidden flex flex-col">
+<div class="mx-auto p-4 overflow-hidden flex flex-col bg-white ">
   <div class="card bg-white rounded-2xl   border-gray-200 p-8 shadow-lg transition-all  flex items-center justify-between">
     <p class="flex items-center font-extrabold text-3xl text-fuchsia-700 tracking-wide">Card Creation Panel</p>
      <div class="flex justify-end w-auto">
        @if (!store.isEmpty()) {
          <div >
-           <p-button class="mr-2" [rounded]="true" icon="pi pi-refresh" severity="warn" label="Cardları Temizle" (onClick)="store.clearCards()"> </p-button>
+           <p-button class="mr-2" [rounded]="true" icon="pi pi-refresh" severity="warn" label="Cardları Temizle" > </p-button>
          </div>
        }
        <p-button [rounded]="true" icon="pi pi-plus" (onClick)="store.toggleDialog()"></p-button>
     </div>
   </div>
-  <div class="flex-1 overflow-auto grid xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 xs:grid-cols-1 gap-4 p-2">
+  <div class="flex-1 mt-4 overflow-auto grid xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 xs:grid-cols-1 gap-4 p-2">
     @for (card of store.cards() ; track $index) {
       <div class="card bg-white p-6 rounded-xl shadow-lg border border-gray-200 transition-all hover:scale-101">
         <p class="font-semibold text-xl text-gray-800">{{ card.name }}</p>

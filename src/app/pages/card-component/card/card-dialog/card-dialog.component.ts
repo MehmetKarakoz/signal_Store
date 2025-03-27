@@ -44,5 +44,11 @@ export class CardDialogComponent {
       });
     }
   }
-
+  toggleDialog(){
+    this.store.toggleDialog();
+    this.cardForm.reset({
+      name:'',
+      date:new Date()
+    })
+  }
 }
